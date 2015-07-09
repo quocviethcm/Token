@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>icons/computer.svg</file>
+        <file>icons/Certificate_Icon.png</file>
+    </qresource>
+</RCC>
