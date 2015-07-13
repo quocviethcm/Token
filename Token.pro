@@ -10,6 +10,9 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 LIBS += "/usr/lib/viettel-ca_v4.so"
 
+LIBS += -ldl\
+        -lcrypto
+
 TARGET = Token
 TEMPLATE = app
 

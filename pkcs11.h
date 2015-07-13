@@ -4,6 +4,8 @@
 #include "include/cryptoki_ext.h"
 #include "include/auxiliary.h"
 
+#define LIBPATH "/usr/lib/viettel-ca_v4.so"
+
 typedef struct PositionItem
 {
     int indexOfRoot;
@@ -132,19 +134,29 @@ class pkcs11
 public:
     pkcs11();
     ~pkcs11();
+     CK_RV rv;
     CK_SLOT_ID_PTR m_pSlotList;
     CK_VOID_PTR m_pApplication;
     CK_SESSION_HANDLE m_hSession;
+    void *m_hPkiLib;
+    AUX_FUNC_LIST_PTR m_pAuxFunc;
+
+
     void ShowErr(char *strInfo, CK_RV rv);
-        void StartOP();
-        CK_RV Connect();
-        CK_RV Login(QString pin);
-        void Enum();
-        void Data();
-        void Public();
-        void Private();
-        void Secret();
-        CK_RV Close();
+    void StartOP();
+    CK_RV Connect();
+    CK_RV Login(QString pin);
+    CK_BYTE Logout();
+
+    CK_RV ChangePin(QString oldPin, QString newPin);
+    CK_BYTE ChangePin(std::string oldPin, std::string newPin);
+    CK_RV SetTokenName(QString tokenName);
+    void Enum();
+    void Data();
+    void Public();
+    void Private();
+    void Secret();
+    CK_RV Close();
 };
 
 #endif // PKCS11_H

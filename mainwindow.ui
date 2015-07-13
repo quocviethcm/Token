@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Viettel-CA Token Manager</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QToolButton" name="loginMenuButton">
@@ -30,8 +30,8 @@
    <widget class="QWidget" name="loginScreen" native="true">
     <property name="geometry">
      <rect>
-      <x>300</x>
-      <y>100</y>
+      <x>400</x>
+      <y>40</y>
       <width>281</width>
       <height>181</height>
      </rect>
@@ -89,13 +89,13 @@
     <zorder>lineEdit</zorder>
     <zorder>label</zorder>
     <zorder>label_2</zorder>
-    <zorder>dataViewScreen</zorder>
+    <zorder>changePinScreen</zorder>
    </widget>
    <widget class="QWidget" name="dataViewScreen" native="true">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>130</y>
+      <x>360</x>
+      <y>60</y>
       <width>201</width>
       <height>181</height>
      </rect>
@@ -150,11 +150,272 @@
      <string>...</string>
     </property>
    </widget>
+   <widget class="QWidget" name="settingMenu" native="true">
+    <property name="geometry">
+     <rect>
+      <x>470</x>
+      <y>10</y>
+      <width>171</width>
+      <height>151</height>
+     </rect>
+    </property>
+    <widget class="QPushButton" name="settingMenuPushButton_2">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>70</y>
+       <width>99</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>PushButton</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="settingMenuPushButton">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>110</y>
+       <width>99</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>PushButton</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="settingMenuLabel">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>30</y>
+       <width>67</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QToolButton" name="settingMenuButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>120</y>
+      <width>24</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>...</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="changePinScreen" native="true">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>170</y>
+      <width>281</width>
+      <height>211</height>
+     </rect>
+    </property>
+    <widget class="QLabel" name="changePinlabel_2">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>30</y>
+       <width>67</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="changePinlabel_4">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>60</y>
+       <width>67</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="changePinlabel_3">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>90</y>
+       <width>67</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="changePinlabel_1">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>67</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="changePinlineEdit_2">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>20</y>
+       <width>113</width>
+       <height>27</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="changePinlineEdit_1">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>50</y>
+       <width>113</width>
+       <height>27</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="changePinlineEdit_3">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>80</y>
+       <width>113</width>
+       <height>27</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="changePinpushButton_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>120</y>
+       <width>99</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>PushButton</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="changePinpushButton_1">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>120</y>
+       <width>99</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>PushButton</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="changeNameScreen" native="true">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>20</y>
+      <width>181</width>
+      <height>131</height>
+     </rect>
+    </property>
+    <widget class="QPushButton" name="changeNamepushButton_1">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>100</y>
+       <width>99</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>PushButton</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="changeNamepushButton_2">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>100</y>
+       <width>99</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>PushButton</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="changeNamelineEdit_1">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>50</y>
+       <width>113</width>
+       <height>27</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="changeNamelabel_1">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>10</y>
+       <width>67</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="changeNamelabel_2">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>60</y>
+       <width>67</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+    <zorder>changeNamepushButton_1</zorder>
+    <zorder>changeNamepushButton_2</zorder>
+    <zorder>changeNamelineEdit_1</zorder>
+    <zorder>changeNamelabel_1</zorder>
+    <zorder>changeNamelabel_2</zorder>
+    <zorder>changePinScreen</zorder>
+   </widget>
    <zorder>loginScreen</zorder>
-   <zorder>loginMenuButton</zorder>
    <zorder>dataViewScreen</zorder>
-   <zorder>treeView</zorder>
+   <zorder>loginMenuButton</zorder>
    <zorder>cerMenuButton</zorder>
+   <zorder>settingMenuButton</zorder>
+   <zorder>settingMenu</zorder>
+   <zorder>changeNameScreen</zorder>
+   <zorder>changePinScreen</zorder>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
