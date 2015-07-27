@@ -1,8 +1,30 @@
 #ifndef PKCS11_H
 #define PKCS11_H
+
+#define CONST const
+#pragma once
 #include <QtCore>
 #include "include/cryptoki_ext.h"
 #include "include/auxiliary.h"
+#include <QtNetwork/QSsl>
+#include <QtNetwork/QSslCertificate>
+
+#include <openssl/x509.h>
+#include <openssl/pkcs12.h>
+#include <openssl/err.h>
+#include <openssl/bio.h>
+#include <openssl/buffer.h>
+#include <openssl/err.h>
+#include <openssl/conf.h>
+#include <openssl/bio.h>
+#include <openssl/stack.h>
+#include <openssl/objects.h>
+#include <openssl/asn1.h>
+#include <openssl/pem.h>
+#include <openssl/evp.h>
+#include <openssl/x509.h>
+#include <openssl/x509v3.h>
+#include <openssl/pkcs12.h>
 
 #define LIBPATH "/usr/lib/viettel-ca_v4.so"
 
@@ -138,19 +160,31 @@ public:
     CK_SLOT_ID_PTR m_pSlotList;
     CK_VOID_PTR m_pApplication;
     CK_SESSION_HANDLE m_hSession;
+    CK_TOKEN_INFO tokenInfo;
     void *m_hPkiLib;
     AUX_FUNC_LIST_PTR m_pAuxFunc;
+//    CK_ATTRIBUTE cerInfo[];
+
+//    CK_ATTRIBUTE priKey[];
+//    CK_ATTRIBUTE pubKey[];
 
 
     void ShowErr(char *strInfo, CK_RV rv);
-    void StartOP();
+
     CK_RV Connect();
     CK_RV Login(QString pin);
     CK_BYTE Logout();
+    void toHex(void *const data,const size_t dataLength,std::string &dest);
+    CK_BYTE GetCertificate(DataCertificate Cer[], QSslCertificate *QsslObj[]);
+    CK_BYTE GetPublicKey(DataPublicKey Pub[]);
+    CK_BYTE GetPrivateKey(DataPrivateKey Pri[]);
+    QString hexFormat(QString str, int mode);
+
 
     CK_RV ChangePin(QString oldPin, QString newPin);
     CK_BYTE ChangePin(std::string oldPin, std::string newPin);
     CK_RV SetTokenName(QString tokenName);
+    CK_RV GetTokenInfo();
     void Enum();
     void Data();
     void Public();

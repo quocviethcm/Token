@@ -30,8 +30,8 @@
    <widget class="QWidget" name="loginScreen" native="true">
     <property name="geometry">
      <rect>
-      <x>400</x>
-      <y>40</y>
+      <x>310</x>
+      <y>210</y>
       <width>281</width>
       <height>181</height>
      </rect>
@@ -85,31 +85,29 @@
       <string>TextLabel</string>
      </property>
     </widget>
-    <zorder>pushButton</zorder>
-    <zorder>lineEdit</zorder>
-    <zorder>label</zorder>
-    <zorder>label_2</zorder>
-    <zorder>changePinScreen</zorder>
+    <widget class="QPushButton" name="pushButton_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>99</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>PushButton</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="dataViewScreen" native="true">
     <property name="geometry">
      <rect>
-      <x>360</x>
-      <y>60</y>
+      <x>290</x>
+      <y>30</y>
       <width>201</width>
       <height>181</height>
      </rect>
     </property>
-    <widget class="QTreeView" name="treeView">
-     <property name="geometry">
-      <rect>
-       <x>40</x>
-       <y>10</y>
-       <width>256</width>
-       <height>192</height>
-      </rect>
-     </property>
-    </widget>
     <widget class="QPushButton" name="exportButton">
      <property name="geometry">
       <rect>
@@ -128,6 +126,34 @@
       <rect>
        <x>20</x>
        <y>100</y>
+       <width>99</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>PushButton</string>
+     </property>
+    </widget>
+    <widget class="QTreeWidget" name="treeWidget">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>40</y>
+       <width>256</width>
+       <height>192</height>
+      </rect>
+     </property>
+     <column>
+      <property name="text">
+       <string notr="true">1</string>
+      </property>
+     </column>
+    </widget>
+    <widget class="QPushButton" name="refreshButton">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
        <width>99</width>
        <height>27</height>
       </rect>
@@ -401,12 +427,6 @@
       <string>TextLabel</string>
      </property>
     </widget>
-    <zorder>changeNamepushButton_1</zorder>
-    <zorder>changeNamepushButton_2</zorder>
-    <zorder>changeNamelineEdit_1</zorder>
-    <zorder>changeNamelabel_1</zorder>
-    <zorder>changeNamelabel_2</zorder>
-    <zorder>changePinScreen</zorder>
    </widget>
    <zorder>loginScreen</zorder>
    <zorder>dataViewScreen</zorder>
@@ -419,6 +439,26 @@
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <tabstops>
+  <tabstop>lineEdit</tabstop>
+  <tabstop>exportButton</tabstop>
+  <tabstop>viewButton</tabstop>
+  <tabstop>cerMenuButton</tabstop>
+  <tabstop>settingMenuPushButton_2</tabstop>
+  <tabstop>settingMenuPushButton</tabstop>
+  <tabstop>settingMenuButton</tabstop>
+  <tabstop>changePinlineEdit_1</tabstop>
+  <tabstop>changePinlineEdit_2</tabstop>
+  <tabstop>changePinlineEdit_3</tabstop>
+  <tabstop>changePinpushButton_2</tabstop>
+  <tabstop>changePinpushButton_1</tabstop>
+  <tabstop>loginMenuButton</tabstop>
+  <tabstop>pushButton</tabstop>
+  <tabstop>changeNamelineEdit_1</tabstop>
+  <tabstop>changeNamepushButton_1</tabstop>
+  <tabstop>changeNamepushButton_2</tabstop>
+  <tabstop>pushButton_2</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

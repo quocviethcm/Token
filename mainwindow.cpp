@@ -1,9 +1,70 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "pkcs11.h"
+#include "tabledialog.h"
 #include <QtCore>
+#include <QDebug>
+
+DataCertificate CertificateStore[] = {
+    {"", "", "", "", "", ""},
+    {"", "", "", "", "", ""},
+    {"", "", "", "", "", ""},
+    {"", "", "", "", "", ""},
+    {"", "", "", "", "", ""},
+    {"", "", "", "", "", ""},
+    {"", "", "", "", "", ""},
+    {"", "", "", "", "", ""},
+    {"", "", "", "", "", ""},
+    {"", "", "", "", "", ""}
+};
+
+DataPublicKey PublicKeyStore[] = {
+    {"", "", "", "", "", "", ""},
+    {"", "", "", "", "", "", ""},
+    {"", "", "", "", "", "", ""},
+    {"", "", "", "", "", "", ""},
+    {"", "", "", "", "", "", ""},
+    {"", "", "", "", "", "", ""},
+    {"", "", "", "", "", "", ""},
+    {"", "", "", "", "", "", ""},
+    {"", "", "", "", "", "", ""},
+    {"", "", "", "", "", "", ""}
+};
+
+DataPrivateKey PrivateKeyStore[] = {
+    {"", "", "", "", "", "", "", "", "", ""},
+    {"", "", "", "", "", "", "", "", "", ""},
+    {"", "", "", "", "", "", "", "", "", ""},
+    {"", "", "", "", "", "", "", "", "", ""},
+    {"", "", "", "", "", "", "", "", "", ""},
+    {"", "", "", "", "", "", "", "", "", ""},
+    {"", "", "", "", "", "", "", "", "", ""},
+    {"", "", "", "", "", "", "", "", "", ""},
+    {"", "", "", "", "", "", "", "", "", ""},
+    {"", "", "", "", "", "", "", "", "", ""}
+};
+
+PositionItem locateItem[] = {
+    {0,0,0,0, "", "", ""},
+    {0,0,0,0, "", "", ""},
+    {0,0,0,0, "", "", ""},
+    {0,0,0,0, "", "", ""},
+    {0,0,0,0, "", "", ""},
+    {0,0,0,0, "", "", ""},
+    {0,0,0,0, "", "", ""},
+    {0,0,0,0, "", "", ""},
+    {0,0,0,0, "", "", ""},
+    {0,0,0,0, "", "", ""}
+};
+
 
 pkcs11 newToken;
+
+QSslCertificate *QsslObj[10];
+
+QSslCertificate *QsslObjFirst[10];
+
+ItemSelect item_select;
 
 const int buttonW = 70;
 
@@ -17,6 +78,8 @@ MainWindow::MainWindow(QWidget *parent) :
     rv = C_Initialize(NULL_PTR);
 
     checked = false;
+
+
 
 
     ui->centralWidget->setFixedSize(QSize(600,400));
@@ -54,15 +117,25 @@ MainWindow::MainWindow(QWidget *parent) :
     changePinTokenScreen();
     changeNameScreen();
 
+    ui->settingMenuButton->setEnabled(false);
+   // ui->pushButton->setEnabled(false);
 
 
 
-    //ui->centralWidget->setStyleSheet("QWidget{background-color: rgba( 0, 0, 0, 0% );}");
+
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::AddChild(QTreeWidgetItem *parent, QString name)
+{
+    QTreeWidgetItem *item = new QTreeWidgetItem();
+    item->setText(0, name);
+    //item->setIcon(0, ico);
+    parent->addChild(item);
 }
 
 void MainWindow::loginScreen()
@@ -77,19 +150,27 @@ void MainWindow::loginScreen()
     ui->label->setText("<b> PIN code:</b>");
     ui->lineEdit->setGeometry(230,250,200,50);
     ui->pushButton->setGeometry(120,310,100,50);
-    ui->pushButton->setText("LOGIN");
+    ui->pushButton->setText("Login");
+    ui->pushButton_2->setGeometry(320,310,100,50);
+    ui->pushButton_2->setText("Logout");
+    ui->pushButton_2->setEnabled(false);
+
     ui->loginScreen->setVisible(true);
+    ui->lineEdit->setEchoMode(QLineEdit::Password);
 
 }
 void MainWindow::dataManagerScreen()
 {
+
     ui->dataViewScreen->setVisible(false);
     ui->dataViewScreen->setGeometry(100,0,500,400);
-    ui->treeView->setGeometry(10,10,480,300);
+    ui->treeWidget->setGeometry(10,10,480,300);
     ui->exportButton->setText("Export");
-    ui->exportButton->setGeometry(100,330,100,50);
-    ui->viewButton->setGeometry(300,330,100,50);
+    ui->exportButton->setGeometry(50,330,100,50);
+    ui->viewButton->setGeometry(200,330,100,50);
     ui->viewButton->setText("View");
+    ui->refreshButton->setGeometry(350,330,100,50);
+    ui->refreshButton->setText("Refresh");
 
 }
 void MainWindow::settingMenu()
@@ -119,23 +200,29 @@ void MainWindow::changePinTokenScreen(){
 
     ui->changePinlabel_4->setGeometry(0,250,100,25);
      ui->changePinlabel_4->setText("ReType PIN");
-    ui->changePinlineEdit_1->setGeometry(120,150,100,25);
-    ui->changePinlineEdit_2->setGeometry(120,200,100,25);
-    ui->changePinlineEdit_3->setGeometry(120,250,100,25);
+    ui->changePinlineEdit_1->setGeometry(120,150,150,25);
+    ui->changePinlineEdit_2->setGeometry(120,200,150,25);
+    ui->changePinlineEdit_3->setGeometry(120,250,150,25);
     ui->changePinpushButton_1->setGeometry(100,350,100,25);
     ui->changePinpushButton_1->setText("Accept");
     ui->changePinpushButton_2->setGeometry(300,350,100,25);
     ui->changePinpushButton_2->setText("Cancel");
+
+    ui->changePinlineEdit_1->setEchoMode(QLineEdit::Password);
+    ui->changePinlineEdit_2->setEchoMode(QLineEdit::Password);
+    ui->changePinlineEdit_3->setEchoMode(QLineEdit::Password);
 }
 void MainWindow::changeNameScreen()
 {
+
     ui->changeNameScreen->setVisible(false);
     ui->changeNameScreen->setGeometry(100,0,500,400);
     ui->changeNamelabel_1->setGeometry(0,0,300,100);
     ui->changeNamelabel_1->setText("CHANGE NAME TOKEN");
     ui->changeNamelabel_2->setGeometry(0,150,100,25);
     ui->changeNamelabel_2->setText("Name");
-    ui->changeNamelineEdit_1->setGeometry(120,150,100,25);
+
+    ui->changeNamelineEdit_1->setGeometry(120,150,300,25);
     ui->changeNamepushButton_1->setGeometry(100,350,100,25);
     ui->changeNamepushButton_1->setText("Accept");
     ui->changeNamepushButton_2->setGeometry(300,350,100,25);
@@ -186,24 +273,36 @@ void MainWindow::on_pushButton_clicked()
     if(rv != 0)
     {
         QMessageBox::warning(this,"Connect Token Fail","Are you plug token yet?");
+        ui->lineEdit->setText("");
     }
     rv = newToken.Login(pinCode);
     if (rv != 0)
     {
         QMessageBox::information(this,"Login fail","Wrong PIN number");
+
     }
     else
     {
         ui->pushButton->setEnabled(false);
+        ui->pushButton_2->setEnabled(true);
         ui->dataViewScreen->setVisible(true);
         ui->loginScreen->setVisible(false);
+        ui->settingMenuButton->setEnabled(true);
 
     }
+    ui->lineEdit->setText("");
+
 }
+void MainWindow::on_pushButton_2_clicked()
+{
+   newToken.Logout();
+   ui->pushButton->setEnabled(true);
+   ui->pushButton_2->setEnabled(false);
+   ui->settingMenuButton->setEnabled(false);
+   ui->settingMenu->setVisible(false);
+   ui->treeWidget->clear();
 
-
-
-
+}
 
 void MainWindow::on_settingMenuButton_toggled(bool checked)
 {
@@ -231,6 +330,7 @@ void MainWindow::on_settingMenuPushButton_clicked()
     ui->dataViewScreen->setVisible(false);
     ui->changePinScreen->setVisible(false);
     ui->changePinScreen->setVisible(false);
+    ui->changeNamelineEdit_1->setText(this->getTokenName().trimmed());
 
 }
 
@@ -301,4 +401,238 @@ void MainWindow::on_changeNamepushButton_2_clicked()
 {
     ui->changeNamelineEdit_1->setText("");
 
+}
+
+QString MainWindow::getTokenName(){
+    newToken.Connect();
+    //CK_TOKEN_INFO tokenInfo;
+    rv = newToken.GetTokenInfo();
+    QString a = (const char *)(newToken.tokenInfo.label);
+    qDebug() << a;
+    return a.split(QRegExp("\\s+Viettel-CA"))[0];
+
+}
+
+void MainWindow::DeleteSameElementArray(QString strA[], int &length)
+{
+    for(int i=0; i<length; i++)
+    {
+        for(int t=i+1; t<length; t++)
+        {
+            while((QString::compare(strA[i], strA[t], Qt::CaseSensitive)) == 0)
+            {
+                for(int j=t; j<length; j++)
+                    strA[j]=strA[j+1];
+                length--;
+            }
+        }
+    }
+}
+
+void MainWindow::on_refreshButton_clicked()
+{
+    ui->treeWidget->clear();
+
+
+      newToken.GetCertificate(CertificateStore,QsslObj);
+      newToken.GetPrivateKey(PrivateKeyStore);
+    newToken.GetPublicKey(PublicKeyStore);
+
+
+   QString temp[30];
+   QString temp2[30];
+
+   int i=0;
+   int index = 0;
+   int countNotNull = 0;
+
+   for(i=0; i<30; i++)
+   {
+       temp[i] = "";
+       temp2[i] = "";
+   }
+
+   // copy label's object into ObjectLabel
+   for(i=0; i<10; i++)
+   {
+       temp[index] = CertificateStore[i].CER_CKA_ID;
+       index++;
+   }
+   for(i=0; i<10; i++)
+   {
+       temp[index] = PublicKeyStore[i].KEYPU_CKA_ID;
+       index++;
+   }
+   for(i=0; i<10; i++)
+   {
+       temp[index] = PrivateKeyStore[i].KEYPR_CKA_ID;
+       index++;
+   }
+   // Delete ""
+   for(i=0; i<30; i++)
+   {
+       if((QString::compare(temp[i], QString(""), Qt::CaseSensitive)) > 0)
+       {
+           temp2[countNotNull] = temp[i];
+           countNotNull++;
+       }
+
+   }
+
+   int length = countNotNull;
+   // Delete the same elements
+   DeleteSameElementArray(temp2, length);
+
+   //testshow2(temp2, length);
+
+   QTreeWidgetItem *TopItem[length];
+   // Set Icon for Item
+   QIcon ico_TopLevel;
+   ico_TopLevel.addFile(QString(":/images/res/folder.png"), QSize(), QIcon::Normal, QIcon::Off);
+   QIcon ico_certificate;
+   ico_certificate.addFile(QString(":/images/res/chungthuso.png"), QSize(), QIcon::Normal, QIcon::Off);
+   QIcon ico_PublicKey;
+   ico_PublicKey.addFile(QString(":/images/res/public.png"), QSize(), QIcon::Normal, QIcon::Off);
+   QIcon ico_PrivateKey;
+   ico_PrivateKey.addFile(QString(":/images/res/private.png"), QSize(), QIcon::Normal, QIcon::Off);
+
+   int j, t;
+   QString toplevelname;
+
+   for(i=0; i<length; i++)
+   {
+       for(t=0; t< 10; t++)
+       {
+           if((QString::compare(CertificateStore[t].CER_CKA_ID, temp2[i], Qt::CaseSensitive)) == 0)
+           {
+               toplevelname = CertificateStore[t].CER_COMMOND_NAME.toUpper();
+               break;
+           }
+           if((QString::compare(PublicKeyStore[t].KEYPU_CKA_ID, temp2[i], Qt::CaseSensitive)) == 0)
+           {
+               toplevelname = PublicKeyStore[t].KEYPU_CKA_CONTAINNER.toUpper();
+               break;
+           }
+           if((QString::compare(PrivateKeyStore[t].KEYPR_CKA_ID, temp2[i], Qt::CaseSensitive)) == 0)
+           {
+               toplevelname = PrivateKeyStore[t].KEYPR_CKA_CONTAINNER.toUpper();
+               break;
+           }
+       }
+       locateItem[i].indexOfRoot = i;
+       TopItem[i] = new QTreeWidgetItem(ui->treeWidget);
+       TopItem[i]->setText(0, toplevelname);
+       //TopItem[i]->setIcon(0, ico_TopLevel);
+       ui->treeWidget->addTopLevelItem(TopItem[i]);
+
+
+       //add certificate
+       for(j=0; j<10; j++)
+       {
+           if((QString::compare(temp2[i], CertificateStore[j].CER_CKA_ID, Qt::CaseSensitive)) == 0)
+           {
+               AddChild(TopItem[i], "Certificate");
+               locateItem[i].indexOfCer = j;
+               locateItem[i].CerID = CertificateStore[j].CER_CKA_ID;
+               break;
+           }
+       }
+       //add private key
+       for(j=0; j<10; j++)
+       {
+           if((QString::compare(temp2[i], PrivateKeyStore[j].KEYPR_CKA_ID, Qt::CaseSensitive)) == 0)
+           {
+               AddChild(TopItem[i], "Privatekey");
+               locateItem[i].indexOfPri = j;
+               locateItem[i].PriID = PrivateKeyStore[j].KEYPR_CKA_ID;
+               break;
+           }
+       }
+       //add public key
+       for(j=0; j<10; j++)
+       {
+           if((QString::compare(temp2[i], PublicKeyStore[j].KEYPU_CKA_ID, Qt::CaseSensitive)) == 0)
+           {
+               AddChild(TopItem[i], "Publickey");
+               locateItem[i].indexOfPub = j;
+               locateItem[i].PubID = PublicKeyStore[j].KEYPU_CKA_ID;
+               break;
+           }
+       }
+   }
+   //ui->treeWidget->expandAll();
+   //
+   //Logined = true;
+
+
+
+}
+
+void MainWindow::on_lineEdit_returnPressed()
+{
+    on_pushButton_clicked();
+}
+
+void MainWindow::on_viewButton_clicked()
+{
+    if((QString::compare(item_select.ParentName, QString(""), Qt::CaseSensitive)) == 0
+            && (QString::compare(item_select.ItemName, QString(""), Qt::CaseSensitive)) == 0)
+    {
+        if(QString::compare(item_select.ItemName, "Publickey", Qt::CaseSensitive) != 0
+                && QString::compare(item_select.ItemName, "Privatekey", Qt::CaseSensitive) != 0)
+        {
+            if(item_select.IndexofParent >= 0)
+            {
+                QString pubkey;
+                for(int i=0; i<10; i++)
+                {
+                    if(CertificateStore[item_select.IndexofParent].CER_CKA_ID.compare(PublicKeyStore[i].KEYPU_CKA_ID) == 0)
+                    {
+                        pubkey = PublicKeyStore[i].KEYPU_CKA_MODULUS;
+                        break;
+                    }
+                }
+                TableDialog TD_Info;
+                TD_Info.ReceiveData(QsslObj[item_select.IndexofParent], pubkey);
+                TD_Info.setWindowFlags(Qt::WindowStaysOnTopHint);
+                TD_Info.setWindowTitle(item_select.ParentName);
+                TD_Info.setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, TD_Info.size(), qApp->desktop()->availableGeometry()));
+                TD_Info.exec();
+            }
+        }
+        else
+            QMessageBox::information(this, "title_dialog", "NO Infomation. Contact Development");
+
+    } else
+        QMessageBox::information(this,"title_dialog", "NO Infomation. Contact Development");
+}
+
+
+
+
+void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item)
+{
+    QTreeWidgetItem *parent;
+    parent = item->parent();
+
+    int root = ui->treeWidget->indexOfTopLevelItem(item);
+
+    QString nameofparent;
+    QString nameofisubtem;
+    if(root < 0)
+    {
+        nameofparent = parent->text(0);
+        nameofisubtem = ui->treeWidget->currentItem()->text(0);
+        item_select.ItemName = nameofisubtem;
+        item_select.ParentName = nameofparent;
+
+        item_select.IndexofParent = ui->treeWidget->indexOfTopLevelItem(item->parent());
+    } else
+    {
+        item_select.ItemName = "";
+        item_select.ParentName = "";
+        item_select.IndexofParent = root;
+    }
+    item_select.ParentID = root;
+    item_select.CurrentItemName = ui->treeWidget->currentItem()->text(0);
 }
